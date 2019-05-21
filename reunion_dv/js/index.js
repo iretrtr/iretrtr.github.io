@@ -39,6 +39,8 @@ function draw() {
   var spec =0;
   var master = 0;
   var altro = 0;
+  var interlinea = 5;
+  var start_legend = width-(20*grid);
   background(232, 227, 205);
   no_studi_c = color(177,86,70);
   magi_c = color(62, 103, 105);
@@ -60,47 +62,114 @@ function draw() {
       altro++
     }
   }
+  textSize(grid*2); //dimensione testo
   var grafico = grid*(no_studi+magi+spec+master+altro);
-  line(grid*start,(height/div)-10*grid/4, grid*start+grafico+start, (height/div)-10*grid/4);
-  line(grid*start,(height/div)+10*grid/4, grid*start+grafico+start, (height/div)+10*grid/4);
+  stroke(120);
+  line(grid*start,(height/div)-10*grid/4, grid*start+(grafico/1.15)+start, (height/div)-10*grid/4);
+  line(grid*start,(height/div)+10*grid/4, grid*start+(grafico/1.15)+start, (height/div)+10*grid/4);
   push();
   drawingContext.setLineDash([5, 10]);
-  line(grid*start,height/div, grid*start+grafico+start, height/div);
-  pop();
+  line(grid*start,height/div, grid*start+(grafico/1.15)+start, height/div);
   textAlign(CENTER, CENTER);
   fill(0);
+  noStroke();
   text(anno_apertura, grid*start/2, height/div);
+  pop();
   for(i=2; i<div; i++){
     if(i == div-1){
-      textSize(grid*2); //dimensione testo
       push();
+      textAlign(CENTER, CENTER);
+      noStroke();
       textAlign(LEFT, CENTER);
       fill(no_studi_c);
       text("Non ho proseguito gli studi", grid*start, height/div*(i-1)+grid*2);
       fill(magi_c);
-      text("Magistrale (non Unirsm)", grid*start+grid*no_studi, height/div*(i-1)+grid*2);
+      text("Magistrale (non Unirsm)", grid*start+(grid/1.15)*no_studi, height/div*(i-1)+grid*2);
       fill(spec_c);
-      text("Spec.", grid*start+grid*(no_studi+magi), height/div*(i-1)+grid*2);
+      text("Spec.", grid*start+(grid/1.15)*(no_studi+magi), height/div*(i-1)+grid*2);
       fill(master_c);
-      text("Master", grid*start+grid*(no_studi+magi+spec), height/div*(i-1)+grid*2);
+      text("Master", grid*start+(grid/1.15)*(no_studi+magi+spec), height/div*(i-1)+grid*2);
       fill(altro_c);
-      text("Altro", grid*start+grid*(no_studi+magi+spec+master), height/div*(i-1)+grid*2);
+      text("Altro", grid*start+(grid/1.15)*(no_studi+magi+spec+master), height/div*(i-1)+grid*2);
+      pop();
+      push();
+      textSize(grid*1.5); //dimensione testo
+      textAlign(RIGHT, TOP);
+      noStroke();
+      fill(120);
+      // fill(0,76,153);
+      text("Disoccupato", grid*start-(2*grid), height/div*(i-1)+grid*4);
+      // fill(0, 102, 204);
+      text("Dipendente", grid*start-(2*grid), height/div*(i-1)+grid*5.5);
+      // fill(0, 128, 255);
+      text("Freelancer", grid*start-(2*grid), height/div*(i-1)+grid*7);
+      // fill(51, 153, 255);
+      text("Stagista", grid*start-(2*grid), height/div*(i-1)+grid*8.5);
+      // fill(102, 178, 255);
+      text("Studente", grid*start-(2*grid), height/div*(i-1)+grid*10);
+      // fill(153, 204, 255);
+      text("Altro", grid*start-(2*grid), height/div*(i-1)+grid*11.5);
       pop();
     }else if (i != div-2){
-      line(grid*start,(height/div*i)-10*grid/4, grid*start+grafico+start, (height/div*i)-10*grid/4);
+      stroke(120);
+      line(grid*start,(height/div*i)-10*grid/4, grid*start+(grafico/1.15)+start, (height/div*i)-10*grid/4);
       push();
       drawingContext.setLineDash([5, 10]);
-      line(grid*start,height/div*i, grid*start+grafico+start, height/div*i);
+      line(grid*start,height/div*i, grid*start+(grafico/1.15)+start, height/div*i);
       pop();
-      line(grid*start,(height/div*i)+10*grid/4, grid*start+grafico+start, (height/div*i)+10*grid/4);
+      line(grid*start,(height/div*i)+10*grid/4, grid*start+(grafico/1.15)+start, (height/div*i)+10*grid/4);
       anno = anno_apertura+i-1;
+      push();
+      textAlign(CENTER, CENTER);
+      fill(0);
+      noStroke();
       text(anno, grid*start/2, height/div*i);
+      pop();
     }
   }
   for (i=0; i<ogg.length; i++){
     ogg[i].muovi();
     ogg[i].mostra();
   }
+  noStroke();
+  fill(200,45,45);
+  ellipse(start_legend, grid*interlinea, grid * 2, grid * 2);
+  fill(255);
+  ellipse(start_legend, grid*interlinea, grid/2, grid/2);
+  fill(45,45,200);
+  ellipse(start_legend, grid*(interlinea+5), grid * 2, grid * 2);
+  fill(255);
+  ellipse(start_legend, grid*(interlinea+5), grid/2, grid/2);
+  noFill();
+  stroke(221, 187, 38);
+  strokeWeight(grid/3);
+  ellipse(start_legend, grid*(interlinea+10), grid * 3, grid * 3);
+  noStroke();
+  fill(255);
+  ellipse(start_legend, grid*(interlinea+10), grid/2, grid/2);
+  stroke(0);
+  strokeWeight(1);
+  noFill();
+  var raggio = grid * 2.5;
+  ellipse(start_legend, grid*(interlinea+15.5), raggio*2, raggio*2);
+  let xl = cos(radians(360/10+angle))*raggio;
+  let yl = sin(radians(360/10+angle))*raggio;
+  line(xl+(start_legend), yl+(grid*(interlinea+15.5)), start_legend, grid*(interlinea+15.5));
+  push();
+  noStroke();
+  fill(0);
+  ellipse(xl+(start_legend), yl+(grid*(interlinea+15.5)), grid-1, grid-1);
+  pop();
+  push();
+  textAlign(LEFT, CENTER);
+  fill(120);
+  noStroke();
+  text("Triennale", start_legend+(raggio+grid), grid*interlinea);
+  text("Magistrale", start_legend+(raggio+grid), grid*(interlinea+5));
+  text("Lavoro", start_legend+(raggio+grid), grid*(interlinea+10));
+  text("Figli", start_legend+(raggio+grid), grid*(interlinea+15));
+  pop();
+
   angle++;
 }
 
@@ -156,7 +225,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
     push();
     var x1;
     var y1;
-    x1 = grid*start + this.id * grid;
+    x1 = grid*start + this.id * grid/1.15;
 
     if (this.anno == 2005){
       if (this.voto > 5){
@@ -275,7 +344,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid));
+      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid*1.5));
       pop();
     }
 
@@ -285,7 +354,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid));
+      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid*1.5));
       pop();
     }
 
@@ -295,7 +364,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid));
+      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid*1.5));
       pop();
     }
 
@@ -305,7 +374,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid));
+      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid*1.5));
       pop();
     }
 
@@ -315,7 +384,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       strokeWeight(0.7);
       line(0, height-y1-(grid*div), 0, 0);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid));
+      line(0, height-y1-(grid*div), 0, height-y1-(grid*div+grid*1.5));
       pop();
     }
 
@@ -323,14 +392,14 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       push();
       stroke(0,76,153);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div-grid*5), 0, height-y1-(grid*div-grid*4));
+      line(0, height-y1-(grid*div-grid*5.5), 0, height-y1-(grid*div-grid*4));
       pop();
     }
     if(this.sei == "Dipendente"){
       push();
       stroke(0, 102, 204);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div-grid*6), 0, height-y1-(grid*div-grid*5));
+      line(0, height-y1-(grid*div-grid*7), 0, height-y1-(grid*div-grid*5.5));
       pop();
     }
 
@@ -338,7 +407,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       push();
       stroke(0, 128, 255);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div-grid*7), 0, height-y1-(grid*div-grid*6));
+      line(0, height-y1-(grid*div-grid*8.5), 0, height-y1-(grid*div-grid*7));
       pop();
     }
 
@@ -346,7 +415,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       push();
       stroke(51, 153, 255);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div-grid*8), 0, height-y1-(grid*div-grid*7));
+      line(0, height-y1-(grid*div-grid*10), 0, height-y1-(grid*div-grid*8.5));
       pop();
     }
 
@@ -354,7 +423,7 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       push();
       stroke(102, 178, 255);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div-grid*9), 0, height-y1-(grid*div-grid*8));
+      line(0, height-y1-(grid*div-grid*11.5), 0, height-y1-(grid*div-grid*10));
       pop();
     }
 
@@ -363,14 +432,14 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
       push();
       stroke(153, 204, 255);
       strokeWeight(grid);
-      line(0, height-y1-(grid*div-grid*10), 0, height-y1-(grid*div-grid*9));
+      line(0, height-y1-(grid*div-grid*13), 0, height-y1-(grid*div-grid*11.5));
       pop();
     }
 
     if (this.lavoro == "Si"){
       push();
       stroke(221, 187, 38);
-      strokeWeight(2);
+      strokeWeight(grid/3);
       noFill();
       if(this.corso == "Entrambe"){
         ellipse(0, 0, grid * 4, grid * 4);
@@ -405,27 +474,27 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
     }
 
     noStroke();
-    fill(232, 227, 205);
-    ellipse(0, 0, grid-1, grid-1);
+    fill(255);
+    ellipse(0, 0, grid/2, grid/2);
 
     if (this.figli == "Si"){
       push();
       stroke(0);
       strokeWeight(1);
       noFill();
-      let rad = grid * 3;
+      let rad = grid * 2.5;
       ellipse(0, 0, rad*2, rad*2);
       if (this.numfigli > 10){
         let angle2 = 360/this.numfigli;
         for (var i=0; i<this.numfigli; i++){
-          let x = cos(radians(angle2*i))*rad;
-          let y = sin(radians(angle2*i))*rad;
+          let x = cos(radians(angle+angle2*i))*rad;
+          let y = sin(radians(angle+angle2*i))*rad;
           push();
           noStroke();
           fill(0);
           ellipse(x, y, grid-1, grid-1);
           pop();
-          //line(x, y, 0, 0);
+          line(x, y, 0, 0);
         }
       }else{
         let angle2 = 360/10;
