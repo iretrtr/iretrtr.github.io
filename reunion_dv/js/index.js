@@ -86,7 +86,7 @@ function draw() {
       fill(magi_c);
       text("Magistrale (non Unirsm)", grid*start+(grid/1.15)*no_studi, height/div*(i-1)+grid*2);
       fill(spec_c);
-      text("Spec.", grid*start+(grid/1.15)*(no_studi+magi), height/div*(i-1)+grid*2);
+      text("Specializ.", grid*start+(grid/1.15)*(no_studi+magi), height/div*(i-1)+grid*2);
       fill(master_c);
       text("Master", grid*start+(grid/1.15)*(no_studi+magi+spec), height/div*(i-1)+grid*2);
       fill(altro_c);
@@ -131,15 +131,21 @@ function draw() {
     ogg[i].muovi();
     ogg[i].mostra();
   }
+
+  //triennale
   noStroke();
   fill(200,45,45);
   ellipse(start_legend, grid*interlinea, grid * 2, grid * 2);
   fill(255);
   ellipse(start_legend, grid*interlinea, grid/2, grid/2);
+
+  //magistrale
   fill(45,45,200);
   ellipse(start_legend, grid*(interlinea+5), grid * 2, grid * 2);
   fill(255);
   ellipse(start_legend, grid*(interlinea+5), grid/2, grid/2);
+
+  //lavoro
   noFill();
   stroke(221, 187, 38);
   strokeWeight(grid/3);
@@ -147,27 +153,52 @@ function draw() {
   noStroke();
   fill(255);
   ellipse(start_legend, grid*(interlinea+10), grid/2, grid/2);
+
+  //figli
   stroke(0);
   strokeWeight(1);
   noFill();
   var raggio = grid * 2.5;
-  ellipse(start_legend, grid*(interlinea+15.5), raggio*2, raggio*2);
+  ellipse(start_legend, grid*(interlinea+21), raggio*2, raggio*2);
   let xl = cos(radians(360/10+angle))*raggio;
   let yl = sin(radians(360/10+angle))*raggio;
-  line(xl+(start_legend), yl+(grid*(interlinea+15.5)), start_legend, grid*(interlinea+15.5));
+  line(xl+(start_legend), yl+(grid*(interlinea+21)), start_legend, grid*(interlinea+21));
   push();
   noStroke();
   fill(0);
-  ellipse(xl+(start_legend), yl+(grid*(interlinea+15.5)), grid-1, grid-1);
-  pop();
-  push();
+  ellipse(xl+(start_legend), yl+(grid*(interlinea+21)), grid-1, grid-1);
+  fill(255);
+  ellipse(start_legend, grid*(interlinea+21), grid/2, grid/2);
+
+  //amore
+  stroke(255,0,0);
+  strokeWeight(1);
+  noFill();
+  ellipse(start_legend, grid*(interlinea+29.5), raggio*2, raggio*2);
+  noStroke();
+  fill(255);
+  ellipse(start_legend, grid*(interlinea+29.5), grid/2, grid/2);
+
+  //amore non corrisposto
+  stroke(255,0,0);
+  strokeWeight(1);
+  noFill();
+  drawingContext.setLineDash([3, 3]);
+  ellipse(start_legend, grid*(interlinea+38), raggio*2, raggio*2);
+  noStroke();
+  fill(255);
+  ellipse(start_legend, grid*(interlinea+38), grid/2, grid/2);
+
   textAlign(LEFT, CENTER);
   fill(120);
   noStroke();
   text("Triennale", start_legend+(raggio+grid), grid*interlinea);
   text("Magistrale", start_legend+(raggio+grid), grid*(interlinea+5));
   text("Lavoro", start_legend+(raggio+grid), grid*(interlinea+10));
-  text("Figli", start_legend+(raggio+grid), grid*(interlinea+15));
+  text("Figli", start_legend+(raggio+grid), grid*(interlinea+21));
+  textAlign(LEFT, BOTTOM);
+  text("Ho trovato l'amore in UNIRSM", start_legend+(raggio+grid), grid*(interlinea+27.5), grid*15);
+  text("Amore non corrisposto o finito", start_legend+(raggio+grid), grid*(interlinea+37), grid*15);
   pop();
 
   angle++;
@@ -477,12 +508,54 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
     fill(255);
     ellipse(0, 0, grid/2, grid/2);
 
+    if (this.amore == "Si" && this.amoreoggi != "Si"){
+      if(this.figli == "Si"){
+        push();
+        drawingContext.setLineDash([3, 3]);
+        stroke(255,0,0);
+        strokeWeight(1);
+        noFill();
+        let rad = grid * 4;
+        ellipse(0, 0, rad*2, rad*2);
+        pop();
+      }else{
+        push();
+        drawingContext.setLineDash([3, 3]);
+        stroke(255,0,0);
+        strokeWeight(1);
+        noFill();
+        let rad = grid * 2.5;
+        ellipse(0, 0, rad*2, rad*2);
+        pop();
+      }
+    }
+
+    if(this.amoreoggi == "Si"){
+      if(this.figli == "Si"){
+        push();
+        stroke(255,0,0);
+        strokeWeight(1);
+        noFill();
+        let rad = grid * 4;
+        ellipse(0, 0, rad*2, rad*2);
+        pop();
+      }else{
+        push();
+        stroke(255,0,0);
+        strokeWeight(1);
+        noFill();
+        let rad = grid * 2.5;
+        ellipse(0, 0, rad*2, rad*2);
+        pop();
+      }
+    }
+
     if (this.figli == "Si"){
       push();
       stroke(0);
       strokeWeight(1);
       noFill();
-      let rad = grid * 2.5;
+      let rad = grid * 2.8;
       ellipse(0, 0, rad*2, rad*2);
       if (this.numfigli > 10){
         let angle2 = 360/this.numfigli;
