@@ -153,71 +153,77 @@ function draw() {
   //triennale
   noStroke();
   fill(200,45,45);
-  ellipse(start_legend, grid*interlinea, grid * 2, grid * 2);
+  ellipse(start_legend, grid*(interlinea+25), grid * 2, grid * 2);
   fill(255);
-  ellipse(start_legend, grid*interlinea, grid/2, grid/2);
+  ellipse(start_legend, grid*(interlinea+25), grid/2, grid/2);
 
   //magistrale
   fill(45,45,200);
-  ellipse(start_legend, grid*(interlinea+5), grid * 2, grid * 2);
+  ellipse(start_legend, grid*(interlinea+30), grid * 2, grid * 2);
   fill(255);
-  ellipse(start_legend, grid*(interlinea+5), grid/2, grid/2);
+  ellipse(start_legend,  grid*(interlinea+30), grid/2, grid/2);
 
   //lavoro
   noFill();
   stroke(221, 187, 38);
   strokeWeight(grid/3);
-  ellipse(start_legend, grid*(interlinea+10), grid * 3, grid * 3);
+  ellipse(start_legend, grid*(interlinea+35), grid * 3, grid * 3);
   noStroke();
   fill(255);
-  ellipse(start_legend, grid*(interlinea+10), grid/2, grid/2);
+  ellipse(start_legend, grid*(interlinea+35), grid/2, grid/2);
 
   //figli
   stroke(0);
   strokeWeight(1);
   noFill();
   raggio = grid * 2.5;
-  ellipse(start_legend, grid*(interlinea+21), raggio*2, raggio*2);
+  ellipse(start_legend, grid*(interlinea+46), raggio*2, raggio*2);
   let xl = cos(radians(360/10+angle))*raggio;
   let yl = sin(radians(360/10+angle))*raggio;
-  line(xl+(start_legend), yl+(grid*(interlinea+21)), start_legend, grid*(interlinea+21));
+  line(xl+(start_legend), yl+(grid*(interlinea+46)), start_legend, grid*(interlinea+46));
   push();
   noStroke();
   fill(0);
-  ellipse(xl+(start_legend), yl+(grid*(interlinea+21)), grid-1, grid-1);
+  ellipse(xl+(start_legend), yl+(grid*(interlinea+46)), grid-1, grid-1);
   fill(255);
-  ellipse(start_legend, grid*(interlinea+21), grid/2, grid/2);
+  ellipse(start_legend, grid*(interlinea+46), grid/2, grid/2);
 
   //amore
   stroke(255,0,0);
   strokeWeight(1);
   noFill();
-  ellipse(start_legend, grid*(interlinea+29.5), raggio*2, raggio*2);
+  ellipse(start_legend, grid*(interlinea+54.5), raggio*2, raggio*2);
   noStroke();
   fill(255);
-  ellipse(start_legend, grid*(interlinea+29.5), grid/2, grid/2);
+  ellipse(start_legend, grid*(interlinea+54.5), grid/2, grid/2);
 
   //amore non corrisposto
   stroke(255,0,0);
   strokeWeight(1);
   noFill();
   drawingContext.setLineDash([3, 3]);
-  ellipse(start_legend, grid*(interlinea+38), raggio*2, raggio*2);
+  ellipse(start_legend, grid*(interlinea+63), raggio*2, raggio*2);
   noStroke();
   fill(255);
-  ellipse(start_legend, grid*(interlinea+38), grid/2, grid/2);
-
+  ellipse(start_legend, grid*(interlinea+63), grid/2, grid/2);
   textAlign(LEFT, CENTER);
   fill(120);
   noStroke();
-  text("Triennale", start_legend+(raggio+grid), grid*interlinea);
-  text("Magistrale", start_legend+(raggio+grid), grid*(interlinea+5));
-  text("Lavoro nel campo del design", start_legend+(raggio+grid), grid*(interlinea+10), grid*15);
-  text("Figli", start_legend+(raggio+grid), grid*(interlinea+21));
+  text("Triennale", start_legend+(raggio+grid), grid*(interlinea+25));
+  text("Magistrale", start_legend+(raggio+grid),  grid*(interlinea+30));
+  text("Lavoro nel campo del design", start_legend+(raggio+grid), grid*(interlinea+35), grid*15);
+  text("Figli", start_legend+(raggio+grid), grid*(interlinea+46));
   textAlign(LEFT, BOTTOM);
-  text("Ho trovato l'amore in UNIRSM", start_legend+(raggio+grid), grid*(interlinea+27.5), grid*15);
-  text("Amore non corrisposto o finito", start_legend+(raggio+grid), grid*(interlinea+37), grid*15);
-  text("Tre parole che descrivono la tua attività: ", start_legend+grid, grid*(5+50), grid*15);
+  text("Ho trovato l'amore in UNIRSM", start_legend+(raggio+grid), grid*(interlinea+53.5), grid*15);
+  text("Amore non corrisposto o finito", start_legend+(raggio+grid), grid*(interlinea+62), grid*15);
+  text("Tre parole che descrivono la tua attività: ", start_legend+grid, grid*(interlinea+72), grid*15);
+  textFont('Roboto Mono');
+  fill(0);
+  text("Laureati in Design presso l'Università della Repubblica di San Marino, dal 2005 al 2016.", start_legend-6*grid, grid*(interlinea+10), grid*25);
+  textSize(grid*4);
+  fill(45, 128, 238);
+  textAlign(LEFT, CENTER);
+  text("UNIRSM REUNION", start_legend-6*grid, grid*interlinea, grid*15);
   pop();
 
   angle++;
@@ -414,14 +420,14 @@ class Grafico{
       this.saturation = 50;
       this.lightness = 70;
       stroke(120);
-      line(x_c, y_c, start_legend, grid*(5+58));
+      line(x_c, y_c, start_legend, grid*(5+79.5));
       noStroke();
       textAlign(LEFT, CENTER)
       fill(0);
       if(this.parole == ""){
-        text("nessuna", start_legend+grid, grid*(5+57.5), grid*15);
+        text("nessuna", start_legend+grid, grid*(5+79), grid*15);
       }else {
-        text(this.parole, start_legend+grid, grid*(5+57.5), grid*15);
+        text(this.parole, start_legend+grid, grid*(5+79), grid*15);
       }
     }else{
       this.saturation = 100;
