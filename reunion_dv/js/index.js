@@ -1,29 +1,43 @@
-/*
 
-unirsm_reunion  05.2019
-irene trotta
+// Irene Trotta @iretrtr © 2019 MIT License
+// P5js UNIRSM reunion data visuzlitation from Google Spreadsheets/JSON Città Sant' Angelo, IT | 05.2019
+// made for UNIRSM notte bianca 25 maggio 2019
+//
+// @iretrtr
+//
+// unirsm_reunion datavitz
 
-@iretrtr
 
-*/
+let url = "https://spreadsheets.google.com/feeds/list/1DSKXXygKzY0yqjtigLUZx-f2HHtUABJ2TOJP5kAoDYQ/od6/public/values?alt=json";
+let ogg = [];
+let grid = 0;
+let start = 0;
+let div = 15;
+let anno_apertura = 2005;
+let angle = 0;
+let rumore = 0;
+let no_studi_c;
+let magi_c;
+let spec_c;
+let master_c;
+let altro_c;
+let cam;
+let overCircle = false;
+let myFont;
+let start_legend;
+let raggio;
 
-var url = "https://spreadsheets.google.com/feeds/list/1DSKXXygKzY0yqjtigLUZx-f2HHtUABJ2TOJP5kAoDYQ/od6/public/values?alt=json";
-var ogg = [];
-var grid = 0;
-var start = 0;
-var div = 15;
-var anno_apertura = 2005;
-var angle = 0;
-var rumore = 0;
-var no_studi_c;
-var magi_c;
-var spec_c;
-var master_c;
-var altro_c;
+function preload() {
+  myFont = ('Roboto');
+}
 
 function setup() {
   pixelDensity(displayDensity());
   createCanvas(windowWidth, windowWidth/16*9);
+
+  //zoom, pan
+  // cam = new Camera(0, width/2, height/2);
+
   loadJSON(url, gotSpreadsheet);
   // background(232, 227, 205);
   background(255);
@@ -31,25 +45,29 @@ function setup() {
   strokeWeight(0.5);
   strokeCap(SQUARE)
   fill(255);
+  textFont(myFont);
 }
 
 function draw() {
-  var no_studi = 0;
-  var magi = 0;
-  var spec =0;
-  var master = 0;
-  var altro = 0;
-  var interlinea = 5;
-  var start_legend = width-(20*grid);
+  let no_studi = 0;
+  let magi = 0;
+  let spec =0;
+  let master = 0;
+  let altro = 0;
+  let interlinea = 5;
+  colorMode(RGB);
   background(232, 227, 205);
-  no_studi_c = color(177,86,70);
-  magi_c = color(62, 103, 105);
-  spec_c = color(125, 163, 111);
-  master_c = color(205, 172, 50);
-  altro_c = color(125, 58, 76);
+  colorMode(HSL);
+  no_studi_c = color(9,43,50);
+  magi_c = color(195, 25, 50);
+  spec_c = color(103, 22, 50);
+  master_c = color(47, 60, 50);
+  altro_c = color(342, 38, 50);
+  colorMode(RGB);
   grid = width/(ogg.length+20);
+  start_legend = width-(20*grid);
   start = grid*2;
-  for(var i =0; i<ogg.length; i++){
+  for(let i =0; i<ogg.length; i++){
     if(ogg[i].post == "Non ho proseguito gli studi"){
       no_studi++;
     }else if(ogg[i].post == "Magistrale (non Unirsm)"){
@@ -63,7 +81,7 @@ function draw() {
     }
   }
   textSize(grid*2); //dimensione testo
-  var grafico = grid*(no_studi+magi+spec+master+altro);
+  let grafico = grid*(no_studi+magi+spec+master+altro);
   stroke(120);
   line(grid*start,(height/div)-10*grid/4, grid*start+(grafico/1.15)+start, (height/div)-10*grid/4);
   line(grid*start,(height/div)+10*grid/4, grid*start+(grafico/1.15)+start, (height/div)+10*grid/4);
@@ -158,7 +176,7 @@ function draw() {
   stroke(0);
   strokeWeight(1);
   noFill();
-  var raggio = grid * 2.5;
+  raggio = grid * 2.5;
   ellipse(start_legend, grid*(interlinea+21), raggio*2, raggio*2);
   let xl = cos(radians(360/10+angle))*raggio;
   let yl = sin(radians(360/10+angle))*raggio;
@@ -194,15 +212,34 @@ function draw() {
   noStroke();
   text("Triennale", start_legend+(raggio+grid), grid*interlinea);
   text("Magistrale", start_legend+(raggio+grid), grid*(interlinea+5));
-  text("Lavoro", start_legend+(raggio+grid), grid*(interlinea+10));
+  text("Lavoro nel campo del design", start_legend+(raggio+grid), grid*(interlinea+10), grid*15);
   text("Figli", start_legend+(raggio+grid), grid*(interlinea+21));
   textAlign(LEFT, BOTTOM);
   text("Ho trovato l'amore in UNIRSM", start_legend+(raggio+grid), grid*(interlinea+27.5), grid*15);
   text("Amore non corrisposto o finito", start_legend+(raggio+grid), grid*(interlinea+37), grid*15);
+  text("Tre parole che descrivono la tua attività: ", start_legend+grid, grid*(5+50), grid*15);
   pop();
 
   angle++;
+
+  over();
 }
+
+function mouseWheel(e) {
+  var factor = Math.pow(1.01, e.delta);
+  cam.scale(factor, mouseX, mouseY);
+}
+
+// function windowResized() {
+//   resizeCanvas(windowWidth, windowHeight);
+// }
+
+function over (){
+  for (i=0; i<ogg.length; i++){
+    ogg[i].clicked(mouseX, mouseY);
+  }
+}
+
 
 function gotSpreadsheet(reunion){
   //console.log("ciao");
@@ -226,36 +263,178 @@ function gotSpreadsheet(reunion){
                   "numfigli": reunion.feed.entry[i].gsx$numfigli.$t
     }
     //console.log(o);
-    ogg.push(new Oggetto(i, o.corso, o.anno, o.post,
+    ogg.push(new Grafico(i, o.corso, o.anno, o.post,
                          o.sei, o.soddisfazione, o.lavoro, o.occupazione, o.parole,
                          o.voto, o.amore, o.corrisposto, o.amoreoggi, o.figli, o.numfigli));
   }
 }
 
-function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occupazione, _parole, _voto, _amore, _corrisposto, _amoreoggi, _figli, _numfigli){
-  this.id = _id ;
-  this.corso = _corso;
-  this.anno = Number(_anno);
-  this.post = _post;
-  this.sei = _sei;
-  this.soddisfazione = Number(_soddisfazione);
-  this.lavoro = _lavoro;
-  this.occupazione = _occupazione.split("; ");
-  this.parole = _parole.split(", ");
-  this.voto = Number(_voto);
-  this.amore = _amore;
-  this.corrisposto = _corrisposto;
-  this.amoreoggi = _amoreoggi;
-  this.figli = _figli;
-  this.numfigli = Number(_numfigli);
+class Grafico{
+  constructor(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occupazione, _parole, _voto, _amore, _corrisposto, _amoreoggi, _figli, _numfigli){
+    this.id = _id ;
+    this.corso = _corso;
+    this.anno = Number(_anno);
+    this.post = _post;
+    this.sei = _sei;
+    this.soddisfazione = Number(_soddisfazione);
+    this.lavoro = _lavoro;
+    this.occupazione = _occupazione.split("; ");
+    this.parole = _parole //.split(", ");
+    this.voto = Number(_voto);
+    this.amore = _amore;
+    this.corrisposto = _corrisposto;
+    this.amoreoggi = _amoreoggi;
+    this.figli = _figli;
+    this.numfigli = Number(_numfigli);
 
-  this.muovi = function(){
+    this.saturation = 100;
+    this.lightness = 50;
   }
 
-  this.mostra = function() {
+  muovi(){
+  }
+
+  clicked(x_c, y_c) {
+    let x1;
+    let y1;
+    x1 = grid*start + this.id * grid/1.15;
+
+    if (this.anno == 2005){
+      if (this.voto > 5){
+        y1 = height/div-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div);
+      }
+    }
+    if (this.anno == 2006){
+      if (this.voto > 5){
+        y1 = height/div*2-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*2+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*2);
+      }
+    }
+    if (this.anno == 2007){
+      if (this.voto > 5){
+        y1 = height/div*3-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*3+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*3);
+      }
+    }
+    if (this.anno == 2008){
+      if (this.voto > 5){
+        y1 = height/div*4-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*4+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*4);
+      }
+    }
+    if (this.anno == 2009){
+      if (this.voto > 5){
+        y1 = height/div*5-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*5+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*5);
+      }
+    }
+    if (this.anno == 2010){
+      if (this.voto > 5){
+        y1 = height/div*6-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*6+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*6);
+      }
+    }
+    if (this.anno == 2011){
+      if (this.voto > 5){
+        y1 = height/div*7-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*7+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*7);
+      }
+    }
+    if (this.anno == 2012){
+      if (this.voto > 5){
+        y1 = height/div*8-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*8+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*8);
+      }
+    }
+    if (this.anno == 2013){
+      if (this.voto > 5){
+        y1 = height/div*9-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*9+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*9);
+      }
+    }
+    if (this.anno == 2014){
+      if (this.voto > 5){
+        y1 = height/div*10-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*10+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*10);
+      }
+    }
+    if (this.anno == 2015){
+      if (this.voto > 5){
+        y1 = height/div*11-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*11+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*11);
+      }
+    }
+    if (this.anno == 2016){
+      if (this.voto > 5){
+        y1 = height/div*12-(this.voto)*grid/4;
+      }else if(this.voto < 5){
+        y1 = height/div*12+(this.voto)*grid/4;
+      }else{
+        y1 = (height/div*12);
+      }
+    }
+    let distance = dist(x_c, y_c, x1, y1)
+    //raggio grid*2
+    if(x_c>=x1 && x_c<x1+grid && y_c>=y1-grid){ //height-y1-(grid*div)
+      overCircle = true;
+      this.saturation = 50;
+      this.lightness = 70;
+      stroke(120);
+      line(x_c, y_c, start_legend, grid*(5+58));
+      noStroke();
+      textAlign(LEFT, CENTER)
+      fill(0);
+      if(this.parole == ""){
+        text("nessuna", start_legend+grid, grid*(5+57.5), grid*15);
+      }else {
+        text(this.parole, start_legend+grid, grid*(5+57.5), grid*15);
+      }
+    }else{
+      this.saturation = 100;
+      this.lightness = 50;
+      overCircle = false;
+    }
+  }
+
+
+  mostra(){
     push();
-    var x1;
-    var y1;
+    let x1;
+    let y1;
     x1 = grid*start + this.id * grid/1.15;
 
     if (this.anno == 2005){
@@ -371,6 +550,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.post == "Non ho proseguito gli studi"){
       push();
+      colorMode(HSL);
+      no_studi_c = color(9,43,this.lightness);
       stroke(no_studi_c);
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
@@ -381,7 +562,9 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.post == "Magistrale (non Unirsm)"){
       push();
-      stroke(magi_c);
+      colorMode(HSL);
+      magi_c = color(195, 25, this.lightness);
+      stroke(magi_c, this.saturation, 100);
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
       strokeWeight(grid);
@@ -391,6 +574,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.post == "Corso di specializzazione"){
       push();
+      colorMode(HSL);
+      spec_c = color(103, 22, this.lightness);
       stroke(spec_c);
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
@@ -401,6 +586,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.post == "Master"){
       push();
+      colorMode(HSL);
+      master_c = color(47, 60, this.lightness);
       stroke(master_c);
       strokeWeight(0.5);
       line(0, height-y1-(grid*div), 0, 0);
@@ -411,6 +598,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if (this.post != "Master" && this.post!="Corso di specializzazione" && this.post!="Magistrale (non Unirsm)" && this.post!="Non ho proseguito gli studi"){
       push();
+      colorMode(HSL);
+      altro_c = color(342, 38, this.lightness);
       stroke(altro_c);
       strokeWeight(0.7);
       line(0, height-y1-(grid*div), 0, 0);
@@ -421,14 +610,16 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.sei == "Disoccupato"){
       push();
-      stroke(0,76,153);
+      colorMode(HSB);
+      stroke(200,this.saturation,35);
       strokeWeight(grid);
       line(0, height-y1-(grid*div-grid*5.5), 0, height-y1-(grid*div-grid*4));
       pop();
     }
     if(this.sei == "Dipendente"){
       push();
-      stroke(0, 102, 204);
+      colorMode(HSB);
+      stroke(200,this.saturation,50);
       strokeWeight(grid);
       line(0, height-y1-(grid*div-grid*7), 0, height-y1-(grid*div-grid*5.5));
       pop();
@@ -436,7 +627,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.sei == "Libero professionista"){
       push();
-      stroke(0, 128, 255);
+      colorMode(HSB);
+      stroke(200,this.saturation, 60);
       strokeWeight(grid);
       line(0, height-y1-(grid*div-grid*8.5), 0, height-y1-(grid*div-grid*7));
       pop();
@@ -444,7 +636,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.sei == "Stagista"){
       push();
-      stroke(51, 153, 255);
+      colorMode(HSB);
+      stroke(200,this.saturation, 70);
       strokeWeight(grid);
       line(0, height-y1-(grid*div-grid*10), 0, height-y1-(grid*div-grid*8.5));
       pop();
@@ -452,7 +645,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
 
     if(this.sei == "Sto ancora studiando"){
       push();
-      stroke(102, 178, 255);
+      colorMode(HSB);
+      stroke(200,this.saturation, 80);
       strokeWeight(grid);
       line(0, height-y1-(grid*div-grid*11.5), 0, height-y1-(grid*div-grid*10));
       pop();
@@ -461,7 +655,8 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
     if(this.sei != "Sto ancora studiando" && this.sei != "Disoccupato" &&
         this.sei != "Stagista" && this.sei != "Libero professionista" && this.sei != "Dipendente"){
       push();
-      stroke(153, 204, 255);
+      colorMode(HSB);
+      stroke(200,this.saturation, 100);
       strokeWeight(grid);
       line(0, height-y1-(grid*div-grid*13), 0, height-y1-(grid*div-grid*11.5));
       pop();
@@ -483,23 +678,27 @@ function Oggetto(_id, _corso, _anno, _post, _sei, _soddisfazione, _lavoro, _occu
     if (this.corso == "Triennale"){
       push();
       noStroke();
-      fill(200,45,45);
+      // fill(200,45,45);
+      colorMode(HSB);
+      fill(0, this.saturation, 80);
       ellipse(0, 0, grid * 2, grid * 2);
       pop();
     }
     if (this.corso == "Magistrale"){
       push();
       noStroke();
-      fill(45, 45, 200);
+      colorMode(HSB);
+      fill(255, this.saturation, 80);
       ellipse(0, 0, grid * 2, grid * 2);
       pop();
     }
     if (this.corso == "Entrambe"){
       push();
       noStroke();
-      fill(45, 45, 200); //colore magistrale
+      colorMode(HSB);
+      fill(255, this.saturation, 80); //colore magistrale
       ellipse(0, 0, grid * 3.2, grid * 3.2);
-      fill(200,45,45); //colore triennale
+      fill(0, this.saturation, 80); //colore triennale
       ellipse(0, 0, grid * 2, grid * 2);
       pop();
     }
