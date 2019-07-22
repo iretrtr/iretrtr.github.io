@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>prog_tesi</title>
+  <script src="js/library/jquery-3.3.1.js"></script>
+  <script src="js/library/d3.js"></script>
+  <script src="js/library/d3-random.v1.min.js"></script>
+  <script src="js/library/d3-delaunay.js"></script>
+  <script src="js/library/d3-voronoi.js"></script>
+  <style>
+
+  body {
+    font-family: sans-serif;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  #suggestions {
+    font-size: 11px;
+  }
+
+  svg {
+    background-color: #5E4FA2;
+  }
+  .acqua{
+    fill: #5E4FA2;
+  }
+
+  #info {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: white;
+  padding: 10px;
+  font-size:12px;
+  font-family: Helvetica Neue, Arial, sans;
+}
+
+
+  #descrizione {
+    right: 10px;
+    width: calc(100% / 6);
+    position: absolute;
+  }
+  /*
+  .cerchio{
+    stroke: black;
+    stroke-width: 1px;
+  }
+  .celle {
+    stroke: grey;
+    stroke-width: 0px;
+  } */
+
+}
+  </style>
+</head>
+
+<body>
+  <div id="descrizione">
+    <h1>community map generator</h1>
+    <p>type in subreddit name to generate community map</p>
+    <p id="suggestions"><b>subreddit suggestions:</b><br> lgbt; nosleep; javascript; The_Donald; politics; piracy; NSFW; starwars; DnD</p>
+    <input type:"text" id="community" name="community_name" value="lgbt"><br>
+    <input type:"text" id="data" name="data_type" value=""><br>
+    <button onclick="generate()">submit</button><br>
+    <button onclick="download_svg()">download SVG &darr;</button>
+  </div>
+  <svg id="svg" width="1000" height="600"></svg>
+
+  <div id="info">
+<b>COMMUNITY MAP GENERATOR</b><br>
+© 2019 MIT License<br>
+by <a href="https://www.instagram.com/iretrtr/" target="_blank">@iretrtr</a>
+</div>
+
+
+  <script  src="js/index.js"></script>
+</body>
+</html>
