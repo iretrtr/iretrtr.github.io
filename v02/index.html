@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Anne_Lister_Dictionary</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+  body {
+    background-color: #ffffff;
+    font-family: 'Roboto Mono', sans-serif;
+  }
+  div#main {
+    width: calc(80% - 20px);
+    float: left;
+  }
+  div#legend {
+    width: 20%;
+    margin-right: 20px;
+    float: left;
+  }
+  .child{
+    float: left;
+    margin: 2px;
+    margin-bottom: 10px;
+  }
+  img {
+    padding: 0px;
+    margin: 0px;
+    width: auto;
+  }
+  p{
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    font-size: 12px;
+  }
+  div#input {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    padding: 0px;
+    margin-left: 0px;
+  }
+  div#header{
+    width: 100%;
+    height: auto;
+    float: left;
+  }
+  div#uno{
+    width: calc(50% - 20px);
+    height: auto;
+    /* background-color: pink; */
+    float: left;
+    padding-right: 20px;
+  }
+
+  p#paragraph {
+    width: 100%;
+    height: auto;
+    float: left;
+  }
+
+  div#due{
+    width: 50%;
+    /* background-color: grey; */
+    float: left;
+  }
+
+  p#links{
+    width: 100%;
+    float: left;
+  }
+  div#content{
+    /* background-color: green; */
+    width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 50px;
+  }
+  div#footer{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    /* width: 100px;
+    height: 50px; */
+    border-color: black;
+    border: 1px;
+    border-style: solid;
+    background-color: white;
+    font-size: 10px;
+    padding: 5px;
+  }
+  </style>
+</head>
+
+<body>
+  <h1>Anne Lister's Plain Hand</h1>
+  <div id="header">
+    <div id="uno">
+      <p id="paragraph">While I'm transcribing I've decided
+        to compile a sort of "dictionary" with all the words I encounter. The goal is to update this with screenshots
+        of how Anne Lister writes words in her plain hand and have for each of them the corresponding word in English.
+        <br><br>• The words are in alphabetical order.
+        <br>• Hovering on a word on the legend will highlight the corresponding screenshot and <i>vice versa</i>.
+        <br>• Cmd + F to search for a specific word.
+
+        <br><br>This is mostly for me so I can go back to it when I’m struggling with something
+        while transcribing. <b>If you spot something I got wrong or you just want to say "hi", please write me at: </b>
+          <br> 👉 <a href ="https://www.instagram.com/iretrtr/" target="_blank">@iretrtr</a>
+          <br>👉 irene.trotta03@gmail.com</p>
+        </div>
+        <div id="due">
+          <p id="links">More about Anne Lister:
+            <br>• <a href ="https://en.wikipedia.org/wiki/Anne_Lister" target="_blank">Anne Lister (Wikipedia page)</a>
+            <br>• <a href ="https://wyascatablogue.wordpress.com/exhibitions/anne-lister/anne-lister-an-introduction/" target="_blank">Anne Lister – An Introduction</a>
+            <br>• <a href ="https://wyascatablogue.wordpress.com/exhibitions/anne-lister/anne-lister-the-journals/" target="_blank">The Journals</a>
+            <br>• <a href ="https://wyascatablogue.wordpress.com/exhibitions/anne-lister/anne-lister-reading-annes-diaries/" target="_blank">Reading Anne Lister</a>
+            <br>• <a href ="https://wyascatablogue.wordpress.com/exhibitions/anne-lister/anne-lister-diary-transcription-project/" target="_blank">Diary Transcription Project</a>
+            <br>• <a href ="https://www.catalogue.wyjs.org.uk/CalmView/TreeBrowse.aspx?src=CalmView.Catalog&field=RefNo&key=CC00001%2f7%2f9%2f6" target="_blank">Journals Archive</a>
+            <br>• <a href ="https://wyascatablogue.wordpress.com/" target="_blank">West Yorkshire Archive Service Blog</a>
+            <br><br>Screenshots' folder:
+          </p>
+        </div>
+      </div>
+      <div id="content">
+        <div id="input"><input type="file" webkitdirectory></div>
+        <!-- <div id="title_legend" class="title"><h1>Legend</h1></div>
+        <div id="title_img" class="title"><h1>Anne's writing</h1></div> -->
+        <div id="legend">   <div id="title_legend" class="title"><h2>Legend</h2></div>
+      </div>
+      <div id="main">
+        <div id="title_img" class="title"><h2>Anne's writing</h2></div>
+      </div>
+    </div>
+    <div id="footer">
+    <b> Anne Lister's Plain Hand</b>
+    <br> © 2019 MIT License
+    <br> by <a href ="https://www.instagram.com/iretrtr/" target="_blank">@iretrtr</a></div>
+    <script  src="js/index.js"></script>
+  </body>
+  </html>
